@@ -1,22 +1,32 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" href="/assets/logo.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Womb Quiz</title>
+    <link rel="stylesheet" href="/styles/global.css" />
+  </head>
+  <body class="bg-power-600 text-cloud-100">
+    <header class="p-4 absolute left-4">
+      <a href="/">
+        <img
+          src="/public/assets/logo.svg"
+          alt="Logo de la Marca"
+          class="h-40"
+        /></a
+      >
+    </header>
+    <slot />
+  </body>
 </html>
 
 <style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
 </style>
