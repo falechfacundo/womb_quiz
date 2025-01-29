@@ -1,9 +1,11 @@
-<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" href="/assets/logo.ico" />
+    <link
+      rel="icon"
+      href=`https://womb-quiz.vercel.app/public/assets/logo.ico`
+    />
     <meta name="generator" content={Astro.generator} />
     <title>Womb Quiz</title>
     <link rel="stylesheet" href="/styles/global.css" />
@@ -17,16 +19,16 @@
           class="h-40"
         /></a
       >
+      <slot />
     </header>
-    <slot />
   </body>
-</html>
 
-<style>
-  html,
-  body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-  }
-</style>
+  <style>
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</html>
