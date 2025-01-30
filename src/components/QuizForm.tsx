@@ -206,7 +206,7 @@ export default function QuizForm() {
         <div className="flex flex-col object-cover md:flex-row items-center gap-x-14">
           <div className="mb-6 object-cover h-[40svh] md:h-full overflow-hidden md:w-1/2">
             <img
-              src={`${PUBLIC_PATH_URL}/mobile.jpg`}
+              src={`/mobile.jpg`}
               alt="Womb illustration"
               className="w-full rounded-lg shadow-lg"
             />
@@ -236,7 +236,7 @@ export default function QuizForm() {
     return (
       <form
         onSubmit={handleEmailSubmit}
-        className="min-w-48 md:min-w-80 md:w-[450px] mt-10 p-6 bg-power-700 rounded-lg shadow-md shadow-rich_black-100/60"
+        className="min-w-48 md:min-w-80 md:w-[450px] p-6 bg-power-700 rounded-lg shadow-md shadow-rich_black-100/60"
       >
         <div className="mb-6">
           <label htmlFor="name" className="block mb-2 font-FiguraSans">
@@ -279,11 +279,11 @@ export default function QuizForm() {
     const categoryColorClass = categoryColorMap[category] || "text-cloud-100";
 
     return (
-      <div className="max-w-xs md:max-w-3xl mx-auto mt-10">
+      <div className="max-w-xs md:max-w-3xl mx-auto">
         <div className="flex flex-col md:flex-row items-center gap-x-14">
           <div className="mb-6 md:w-1/2">
             <img
-              src={`${PUBLIC_PATH_URL}/${category}.jpg`}
+              src={`/${category}.jpg`}
               alt="Womb illustration"
               className="w-full rounded-lg shadow-lg"
             />
@@ -322,7 +322,7 @@ export default function QuizForm() {
   const currentQuestion = questions[currentQuestionIndex];
 
   return (
-    <div className="min-w-48 md:min-w-80 md:w-[450px] mt-10 p-6 rounded-lg shadow-md shadow-rich_black-100/60">
+    <div className="min-w-48 md:min-w-80 md:w-[450px] p-6 rounded-lg shadow-md shadow-rich_black-100/60">
       <div className="relative mb-6">
         {/* <div className="absolute -left-96 bg-red-500 rounded-xl p-2">
           <p>Esto no seria visible para el user</p>
