@@ -1,0 +1,52 @@
+---
+import Layout from "../layouts/Layout.astro";
+import AnalyticsComponent from "../components/Analytics";
+import { supabase } from "../lib/supabase";
+
+// Verificar autenticación
+// const {
+//   data: { session },
+// } = await supabase.auth.getSession();
+
+// if (!session) {
+//   return Astro.redirect("/login");
+// }
+
+// Manejar peticiones desde el cliente
+if (Astro.request.method === "POST") {
+  try {
+    // Obtener datos de quiz_results
+    const { data: results, error } = await supabase
+      .from("quiz_results")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    return new Response(JSON.stringify({ results }), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  } catch (error) {
+    return new Response(
+      JSON.stringify({ error: error.message || "Error fetching results" }),
+      { status: 500 }
+    );
+  }
+}
+
+// Obtener datos iniciales para SSR
+const { data: initialResults } = await supabase
+  .from("quiz_results")
+  .select("*")
+  .order("created_at", { ascending: false });
+
+// Asegurarse de que initialResults nunca sea null
+const safeInitialResults = initialResults || [];
+---
+
+<Layout>
+  <AnalyticsComponent initialResults={safeInitialResults} client:load />
+</Layout>
