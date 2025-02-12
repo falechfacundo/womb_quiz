@@ -1,4 +1,11 @@
-<!-- ---
+/* empty css                                     */
+import { c as createComponent, r as renderTemplate } from '../chunks/astro/server_CBZukfnR.mjs';
+import 'kleur/colors';
+import 'clsx';
+export { renderers } from '../renderers.mjs';
+
+const $$Colors = createComponent(($$result, $$props, $$slots) => {
+  return renderTemplate`<!-- ---
 import Layout from "../layouts/Layout.astro";
 import ColorPalette from "../components/ColorPalette";
 
@@ -59,4 +66,19 @@ const colorPalettes = {
     <h1 class="text-3xl font-bold text-center mb-8">Brand Colors</h1>
     <ColorPalette colorPalettes={colorPalettes} />
   </div>
-</Layout> -->
+</Layout> -->`;
+}, "C:/Users/Faia Facundo/Desktop/Programacion/proyectos_workana/womb_form/src/pages/colors.astro", void 0);
+
+const $$file = "C:/Users/Faia Facundo/Desktop/Programacion/proyectos_workana/womb_form/src/pages/colors.astro";
+const $$url = "/colors";
+
+const _page = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: $$Colors,
+  file: $$file,
+  url: $$url
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const page = () => _page;
+
+export { page };

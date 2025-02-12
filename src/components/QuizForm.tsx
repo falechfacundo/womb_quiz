@@ -211,7 +211,7 @@ export default function QuizForm() {
         <div className="flex flex-col object-cover md:flex-row items-center gap-x-14">
           <div className="mb-6 object-cover h-[40svh] md:h-full overflow-hidden md:w-1/2">
             <img
-              src="/public/mobile.jpg"
+              src="/mobile.jpg"
               alt="Womb illustration"
               className="w-full rounded-lg shadow-lg"
             />
@@ -286,7 +286,7 @@ export default function QuizForm() {
         <div className="flex flex-col md:flex-row items-center gap-x-14">
           <div className="mb-6 md:w-1/2">
             <img
-              src={`/public/${category}.jpg`}
+              src={`/${category}.jpg`}
               alt="Womb illustration"
               className="w-full rounded-lg shadow-lg"
             />
@@ -304,7 +304,7 @@ export default function QuizForm() {
               Get your Womb Mini Masterclass & Self Care Practices for your womb
             </p>
             <a
-              href={`/public/${category.toLowerCase()}_freebie.pdf`}
+              href={`/${category.toLowerCase()}_freebie.pdf`}
               className="inline-block bg-clay-600 px-4 py-2 rounded hover:bg-power-500 transition-colors duration-300 ease-out"
               download
             >
