@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { supabase } from "../lib/supabase";
+import { getSegment } from "../lib/segments";
 
 export interface Question {
   question: string;
@@ -64,14 +65,6 @@ const categoryColorMap: { [key: string]: string } = {
   COLD: "text-sky-600",
   STUCK: "text-cloud-100",
   HEALTHY: "text-sage-600",
-};
-
-const SEGMENT_IDS = {
-  COLD: "67a8fd4bf7b74c74c1a3dbb8", // Free Cold Womb
-  HOT: "67a8fd5f7d5932c418bc4a1d", // Free Hot womb
-  DAMP: "67a8fd6bc699d3cc3a2e60a9", // Free Damp Womb
-  STUCK: "67a8fdc73355bd0723c35cae", // Free Stuck Womb
-  HEALTHY: "67a8fdddbd78f9c284e47bfc", // Free Healthy Womb
 };
 
 export default function QuizForm() {
@@ -145,13 +138,16 @@ export default function QuizForm() {
     finalAnswers: typeof answers
   ) => {
     try {
+      const category = getWinningCategory();
+      const segment = getSegment(category);
+
       const formData = new FormData();
       formData.append("email", email);
       formData.append("name", name);
       formData.append("scores", JSON.stringify(finalScores));
       formData.append("answers", JSON.stringify(finalAnswers));
-      formData.append("category", getWinningCategory());
-      formData.append("segment_id", SEGMENT_IDS[getWinningCategory()]);
+      formData.append("category", category);
+      formData.append("segment_id", segment.id);
 
       const response = await fetch("/quiz", {
         method: "POST",
