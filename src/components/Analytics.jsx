@@ -13,12 +13,18 @@ import {
 // import { mockResults } from "../data/mockResults";
 import { supabase } from "../lib/supabase";
 
-export default function Analytics({ initialResults }) {
-  const [selectedProfile, setSelectedProfile] = useState(null);
+export default function Analytics({
+  initialResults,
+  initialPagination,
+  allResults,
+}) {
   const [results, setResults] = useState(initialResults);
-  const totalResponses = results ? results.length : 0;
-  const categoryCounts = results
-    ? results.reduce((acc, result) => {
+  const [pagination, setPagination] = useState(initialPagination);
+  const [loading, setLoading] = useState(false);
+  const [selectedProfile, setSelectedProfile] = useState(null);
+  const totalResponses = allResults ? allResults.length : 0;
+  const categoryCounts = allResults
+    ? allResults.reduce((acc, result) => {
         acc[result.category] = (acc[result.category] || 0) + 1;
         return acc;
       }, {})
@@ -30,20 +36,23 @@ export default function Analytics({ initialResults }) {
   //   return acc;
   // }, {});
 
-  async function fetchResults() {
+  async function fetchResults(page = 1) {
     try {
-      const response = await fetch("/analytics", {
+      setLoading(true);
+      const response = await fetch(`/analytics?page=${page}`, {
         method: "POST",
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch results");
-      }
+      if (!response.ok) throw new Error("Failed to fetch results");
 
-      const { results: newResults } = await response.json();
+      const { results: newResults, pagination: newPagination } =
+        await response.json();
       setResults(newResults);
+      setPagination(newPagination);
     } catch (error) {
       console.error("Error fetching results:", error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -52,6 +61,25 @@ export default function Analytics({ initialResults }) {
     const interval = setInterval(fetchResults, 30000); // cada 30 segundos
     return () => clearInterval(interval);
   }, []);
+
+  // Componente de paginación
+  const Pagination = () => (
+    <div className="flex justify-center gap-2 mt-4">
+      {Array.from({ length: pagination.total_pages }, (_, i) => (
+        <button
+          key={i + 1}
+          onClick={() => fetchResults(i + 1)}
+          className={`px-3 py-1 rounded ${
+            pagination.page === i + 1
+              ? "bg-clay-600 text-white"
+              : "bg-rich_black-100/30 hover:bg-rich_black-100/50 transition-colors duration-300 ease-in-out"
+          }`}
+        >
+          {i + 1}
+        </button>
+      ))}
+    </div>
+  );
 
   return (
     <div className="p-8 bg-power-950 min-h-screen">
@@ -92,7 +120,7 @@ export default function Analytics({ initialResults }) {
             {/* Category Distribution & Timeline Charts */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
               <CategoryChart data={categoryCounts} />
-              <TimelineChart data={results} />
+              <TimelineChart data={allResults} />
             </div>
             {/* Results Table */}
             <div className="bg-power-800 rounded-lg p-6 shadow-lg mb-8">
@@ -149,6 +177,7 @@ export default function Analytics({ initialResults }) {
                   </tbody>
                 </table>
               </div>
+              <Pagination />
             </div>
             {/* Detailed Responses for selected profile */}
             {selectedProfile && (
@@ -159,7 +188,7 @@ export default function Analytics({ initialResults }) {
                     {selectedProfile.email})
                   </h2>
                   <button
-                    className="bg-power-500 px-4 py-2 rounded hover:bg-power-600 transition-colors"
+                    className="bg-rich_black-100/30 px-4 py-2 rounded hover:bg-rich_black-100/50 transition-colors duration-300 ease-in-out"
                     onClick={() => setSelectedProfile(null)}
                   >
                     Close
@@ -289,13 +318,26 @@ function TimelineChart({ data }) {
       name: result.name,
     }));
 
+  // Agrupar por fecha para reducir la densidad de puntos
+  const groupedData = timelineData.reduce((acc, item) => {
+    const existing = acc.find((x) => x.date === item.date);
+    if (existing) {
+      existing.score =
+        (existing.score * existing.count + item.score) / (existing.count + 1);
+      existing.count += 1;
+    } else {
+      acc.push({ ...item, count: 1 });
+    }
+    return acc;
+  }, []);
+
   return (
     <div className="bg-power-800 rounded-lg p-6 shadow-lg">
       <h3 className="text-2xl font-HVFlorentino text-golden-600 mb-4">
-        Results Timeline
+        Results Timeline (All Time)
       </h3>
       <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={timelineData}>
+        <LineChart data={groupedData}>
           <CartesianGrid strokeDasharray="3 3" stroke="#44304D" />
           <XAxis dataKey="date" tick={{ fill: "#E8E4E2" }} stroke="#E8E4E2" />
           <YAxis tick={{ fill: "#E8E4E2" }} stroke="#E8E4E2" />

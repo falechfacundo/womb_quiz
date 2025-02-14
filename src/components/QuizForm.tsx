@@ -101,20 +101,16 @@ export default function QuizForm() {
     setAnswers(newAnswers);
 
     const newScores = { ...scores };
-    console.log("New Scores", newScores);
-    console.log("Current Question", currentQuestion);
-
-    if (answer == 1) {
+    if (answer === 1) {
       newScores[currentQuestion.category]++;
     }
-    if (answer == 2) {
-      newScores[currentQuestion.category]++;
-      newScores[currentQuestion.category]++;
+    if (answer === 2) {
+      newScores[currentQuestion.category] += 2;
     }
     setScores(newScores);
 
-    const maxScore = Math.max(...Object.values(newScores));
-    if (maxScore >= 18 || currentQuestionIndex === questions.length - 1) {
+    // Mostrar formulario de email solo cuando se completen todas las preguntas
+    if (currentQuestionIndex === questions.length - 1) {
       setShowEmailForm(true);
     } else {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
@@ -222,7 +218,7 @@ export default function QuizForm() {
             </p>
             <button
               onClick={startQuiz}
-              className="w-full bg-clay-600 py-3 px-6 rounded-lg text-lg hover:bg-clay-500 transition-colors duration-300 font-custom font-bold"
+              className="w-full bg-clay-600 py-3 px-6 rounded-lg text-lg hover:bg-clay-700 transition-colors duration-300 font-custom font-bold"
             >
               Start Quiz
             </button>
@@ -236,9 +232,9 @@ export default function QuizForm() {
     return (
       <form
         onSubmit={handleEmailSubmit}
-        className="max-w-xs md:max-w-md mx-auto mt-10 p-6 bg-power-700 rounded-lg shadow-md shadow-rich_black-100/60"
+        className="w-full md:max-w-md mx-auto mt-10 p-6 bg-power-700 rounded-lg shadow-md shadow-rich_black-100/60"
       >
-        <div className="mb-2">
+        <div className="mb-6">
           <label htmlFor="name" className="block mb-2 font-custom">
             Enter your name
           </label>
@@ -246,12 +242,12 @@ export default function QuizForm() {
             type="text"
             id="text"
             required
-            className="w-full px-3 py-2 border rounded bg-transparent focus:outline-none focus"
+            className="w-full px-3 py-2 border rounded focus:outline-none focus border-power-950/50 bg-rich_black-100/10 hover:bg-rich_black-100/20 hover:border-power-950/80 transition-colors duration-300 ease-in-out"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
         </div>
-        <div className="mb-4">
+        <div className="mb-10">
           <label htmlFor="email" className="block mb-2 font-custom">
             Enter your email to see the result
           </label>
@@ -259,14 +255,14 @@ export default function QuizForm() {
             type="email"
             id="email"
             required
-            className="w-full px-3 py-2 border bg-transparent rounded focus:outline-none focus"
+            className="w-full px-3 py-2 border rounded focus:outline-none focus border-power-950/50 bg-rich_black-100/10 hover:bg-rich_black-100/20 hover:border-power-950/80 transition-colors duration-300 ease-in-out"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <button
           type="submit"
-          className="w-full bg-clay-600 py-2 px-4 rounded hover:bg-clay-500 transition-colors duration-300 ease-out font-custom font-bold"
+          className="w-full bg-clay-600 py-2 px-4 rounded hover:bg-clay-700 transition-colors duration-300 ease-out font-custom font-bold"
         >
           Submit
         </button>
@@ -333,26 +329,26 @@ export default function QuizForm() {
       <div className="space-y-4">
         <button
           onClick={() => handleAnswer(2)}
-          className="w-full py-2 px-4 bg-clay-600 rounded hover:bg-clay-500 transition-colors duration-300 ease-out font-custom font-bold"
+          className="w-full py-2 px-4 rounded bg-clay-600 hover:bg-clay-700 transition-colors duration-300 ease-in-out font-custom font-bold"
         >
           Yes
         </button>
         <button
           onClick={() => handleAnswer(0)}
-          className="w-full py-2 px-4 rounded hover:bg-power-600 bg-power-500 transition-colors duration-300 ease-out font-custom font-bold"
+          className="w-full py-2 px-4 rounded hover:bg-rich_black-100/50 bg-rich_black-100/30 transition-colors duration-300 ease-in-out font-custom font-bold"
         >
           No
         </button>
         <button
           onClick={() => handleAnswer(1)}
-          className="w-full py-2 px-4 rounded hover:bg-power-600 bg-power-500 transition-colors duration-300 ease-out font-custom font-bold"
+          className="w-full py-2 px-4 rounded hover:bg-rich_black-100/50 bg-rich_black-100/30 transition-colors duration-300 ease-in-out font-custom font-bold"
         >
           Does not apply
         </button>
         {currentQuestionIndex > 0 && (
           <button
             onClick={handleBack}
-            className="w-full py-2 px-4 bg-power-500 rounded hover:bg-power-600 transition-colors duration-300 ease-out  font-custom font-bold"
+            className="w-full py-2 px-4 rounded hover:bg-rich_black-100/50 bg-rich_black-100/30 transition-colors duration-300 ease-in-out font-custom font-bold"
           >
             Back
           </button>
