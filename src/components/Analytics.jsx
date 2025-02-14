@@ -82,7 +82,7 @@ export default function Analytics({
   );
 
   return (
-    <div className="p-8 bg-power-950 min-h-screen">
+    <div className="p-8 min-h-screen">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-HVFlorentino text-golden-600 mb-8">
           Womb Quiz Analytics
@@ -123,7 +123,7 @@ export default function Analytics({
               <TimelineChart data={allResults} />
             </div>
             {/* Results Table */}
-            <div className="bg-power-800 rounded-lg p-6 shadow-lg mb-8">
+            <div className="bg-rich_black-100/10 rounded-lg p-6 shadow-lg mb-8">
               <h2 className="text-2xl font-HVFlorentino text-golden-600 mb-4">
                 Recent Results
               </h2>
@@ -181,7 +181,7 @@ export default function Analytics({
             </div>
             {/* Detailed Responses for selected profile */}
             {selectedProfile && (
-              <div className="bg-power-800 rounded-lg p-6 shadow-lg">
+              <div className="bg-rich_black-100/10 rounded-lg p-6 shadow-lg">
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="text-2xl font-HVFlorentino text-golden-600">
                     Detailed Responses for {selectedProfile.name} (
@@ -276,7 +276,7 @@ function CategoryChart({ data }) {
   ];
 
   return (
-    <div className="bg-power-800 rounded-lg p-6 shadow-lg">
+    <div className="bg-rich_black-100/10 rounded-lg p-6 shadow-lg">
       <h3 className="text-2xl font-HVFlorentino text-golden-600 mb-4">
         Category Distribution
       </h3>
@@ -332,7 +332,7 @@ function TimelineChart({ data }) {
   }, []);
 
   return (
-    <div className="bg-power-800 rounded-lg p-6 shadow-lg">
+    <div className="bg-rich_black-100/10 rounded-lg p-6 shadow-lg">
       <h3 className="text-2xl font-HVFlorentino text-golden-600 mb-4">
         Results Timeline (All Time)
       </h3>
