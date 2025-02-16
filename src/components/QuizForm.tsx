@@ -232,7 +232,7 @@ export default function QuizForm() {
     return (
       <form
         onSubmit={handleEmailSubmit}
-        className="w-full md:max-w-md mx-auto mt-10 p-6 bg-power-700 rounded-lg shadow-md shadow-rich_black-100/60"
+        className="w-full md:max-w-md mx-auto mt-10 p-6 bg-power-700 rounded-lg shadow-none md:shadow-md shadow-rich_black-100/60"
       >
         <div className="mb-6">
           <label htmlFor="name" className="block mb-2 font-custom">
