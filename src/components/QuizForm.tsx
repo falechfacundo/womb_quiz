@@ -205,7 +205,7 @@ export default function QuizForm() {
             <img
               src="/mobile.jpg"
               alt="Womb illustration"
-              className="w-full rounded-lg shadow-lg"
+              className="w-full rounded-lg shadow-lg object-cover object-center"
             />
           </div>
           <div className="md:w-1/2 space-y-12">
