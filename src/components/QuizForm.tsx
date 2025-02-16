@@ -201,7 +201,7 @@ export default function QuizForm() {
     return (
       <div className="max-w-xs md:max-w-3xl mx-auto mt-10">
         <div className="flex flex-col object-cover md:flex-row items-center gap-x-14">
-          <div className="mb-6 object-cover h-[40svh] md:h-full overflow-hidden md:w-1/2">
+          <div className="mb-6 object-cover h-[40svh] md:h-full overflow-hidden md:w-1/2 flex items-center justify-center">
             <img
               src="/mobile.jpg"
               alt="Womb illustration"
