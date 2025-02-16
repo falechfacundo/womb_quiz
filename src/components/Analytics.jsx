@@ -123,7 +123,7 @@ export default function Analytics({
               <TimelineChart data={allResults} />
             </div>
             {/* Results Table */}
-            <div className="bg-rich_black-100/10 rounded-lg p-6 shadow-lg mb-8">
+            <div className="bg-rich_black-100/10 rounded-lg p-6 shadow-lg mb-8 max-w-xs overflow-auto sm:max-w-2xl md:max-w-4xl">
               <h2 className="text-2xl font-HVFlorentino text-golden-600 mb-4">
                 Recent Results
               </h2>
@@ -257,7 +257,9 @@ export default function Analytics({
 // Stats Card Component
 function StatCard({ title, value, className = "" }) {
   return (
-    <div className={`rounded-lg p-6 shadow-lg ${className}`}>
+    <div
+      className={`rounded-lg p-6 shadow-lg ${className} max-w-sm md:max-w-4xl`}
+    >
       <h3 className="text-golden-500 text-lg font-HVFlorentino mb-2">
         {title}
       </h3>
