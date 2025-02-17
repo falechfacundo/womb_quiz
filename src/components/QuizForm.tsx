@@ -101,9 +101,6 @@ export default function QuizForm() {
     setAnswers(newAnswers);
 
     const newScores = { ...scores };
-    if (answer === 1) {
-      newScores[currentQuestion.category]++;
-    }
     if (answer === 2) {
       newScores[currentQuestion.category] += 2;
     }
