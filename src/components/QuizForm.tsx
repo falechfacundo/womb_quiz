@@ -180,11 +180,20 @@ export default function QuizForm() {
       // Remove current answer
       const newAnswers = { ...answers };
       const prevAnswer = newAnswers[currentQuestionIndex - 1];
+      console.log("Prev answer", prevAnswer);
+      console.log("Answer", prevAnswer.answer);
+      console.log("Category", prevAnswer.category);
 
       // Update scores if previous answer was "yes"
-      if (prevAnswer.answer) {
+      if (prevAnswer.answer == 1) {
         const newScores = { ...scores };
         newScores[prevAnswer.category]--;
+        setScores(newScores);
+      }
+
+      if (prevAnswer.answer == 2) {
+        const newScores = { ...scores };
+        newScores[prevAnswer.category] -= 2;
         setScores(newScores);
       }
 
@@ -314,11 +323,11 @@ export default function QuizForm() {
     <div className="max-w-xs md:max-w-md mx-auto mt-10 p-6 rounded-lg shadow-md shadow-rich_black-100/60">
       <div className="relative mb-6">
         {/* ESTO NO ES VISIBLE PARA EL USER */}
-        {/* <div className="absolute -left-96 bg-red-500 rounded-xl p-2">
+        <div className="absolute -left-96 bg-red-500 rounded-xl p-2">
           <p>Esto no seria visible para el user</p>
           <br />
           <p>Scores: {JSON.stringify(scores)}</p>
-        </div> */}
+        </div>
         <div className="absolute right-0 font-custom font-bold">
           {currentQuestionIndex + 1}
         </div>
