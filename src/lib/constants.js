@@ -55,7 +55,6 @@ export const questions = [
     question: "My menstrual blood is bright red with no clots.",
   },
   { category: "HEALTHY", question: "I don’t have cramps during my period." },
-  { category: "HEALTHY", question: "I have egg white di." },
   { category: "HEALTHY", question: "I have egg white discharge mid cycle." },
   { category: "HEALTHY", question: "My sexual drive is medium to high." },
   { category: "HEALTHY", question: "I have good digestion." },
