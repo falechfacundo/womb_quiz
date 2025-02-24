@@ -77,24 +77,24 @@ export default function QuizForm() {
   ) => {
     try {
       const category = getWinningCategory();
-      // const segment = getSegment(category);
+      const segment = getSegment(category);
 
-      // const formData = new FormData();
-      // formData.append("email", email);
-      // formData.append("name", name);
-      // formData.append("scores", JSON.stringify(finalScores));
-      // formData.append("answers", JSON.stringify(finalAnswers));
-      // formData.append("category", category);
-      // formData.append("segment_id", segment.id);
+      const formData = new FormData();
+      formData.append("email", email);
+      formData.append("name", name);
+      formData.append("scores", JSON.stringify(finalScores));
+      formData.append("answers", JSON.stringify(finalAnswers));
+      formData.append("category", category);
+      formData.append("segment_id", segment.id);
 
-      // const response = await fetch("/quiz", {
-      //   method: "POST",
-      //   body: formData,
-      // });
+      const response = await fetch("/quiz", {
+        method: "POST",
+        body: formData,
+      });
 
-      // if (!response.ok) {
-      //   throw new Error("Failed to submit quiz");
-      // }
+      if (!response.ok) {
+        throw new Error("Failed to submit quiz");
+      }
 
       setShowEmailForm(false);
       setShowResult(true);
