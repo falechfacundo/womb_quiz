@@ -1,63 +1,7 @@
 import { useState } from "react";
 import { supabase } from "../lib/supabase";
 import { getSegment } from "../lib/segments";
-
-export interface Question {
-  question: string;
-  category: "DAMP" | "STUCK" | "HOT" | "COLD";
-}
-
-const questions: Question[] = [
-  { category: "COLD", question: "I prefer warm weather, I hate the cold!" },
-  { category: "COLD", question: "My lower back feels cold." },
-  { category: "COLD", question: "I prefer hot drinks." },
-  { category: "COLD", question: "I am prone to low back or knee pain." },
-  { category: "COLD", question: "I am prone to low energy and fatigue." },
-  { category: "COLD", question: "My menstrual blood has small clots." },
-  { category: "COLD", question: "I experience low sex drive." },
-  { category: "COLD", question: "I feel overworked and exhausted." },
-  { category: "COLD", question: "I feel depressed with no motivation." },
-  { category: "COLD", question: "My cycles tend to be longer than 28 days." },
-
-  { category: "HOT", question: "I like cold weather, I hate the heat!" },
-  { category: "HOT", question: "I've been told to be hot tempered." },
-  { category: "HOT", question: "My cycles tend to be shorter than 28 days." },
-  { category: "HOT", question: "I tend to spot before my period." },
-  { category: "HOT", question: "I have difficulty sleeping." },
-  { category: "HOT", question: "I sometimes suffer from heart palpitations." },
-  { category: "HOT", question: "I feel stressed, overwhelmed and/or anxious." },
-  { category: "HOT", question: "I suffer from nightsweats." },
-  { category: "HOT", question: "I have strong menstrual cramps." },
-  { category: "HOT", question: "I am a go go go personality type." },
-
-  { category: "DAMP", question: "I like to eat rich sweet foods." },
-  { category: "DAMP", question: "I have a history of PCOS." },
-  { category: "DAMP", question: "My legs feel very heavy during my period." },
-  { category: "DAMP", question: "I tend to retain liquids." },
-  { category: "DAMP", question: "My menstrual flow has mucus." },
-  { category: "DAMP", question: "I have phlegm in my throat & sinuses." },
-  { category: "DAMP", question: "I have a greasy coating on my tongue." },
-  { category: "DAMP", question: "It is hard for me to make decisions." },
-  { category: "DAMP", question: "I tend to worry a lot and overthink things." },
-  { category: "DAMP", question: "I don't have much muscle tone, I feel weak." },
-
-  { category: "STUCK", question: "I have spotting after my period." },
-  { category: "STUCK", question: "I suffer from midcycle ovulation pain." },
-  { category: "STUCK", question: "I sometimes have mid ovulation spotting." },
-  { category: "STUCK", question: "I have heavy bleeding." },
-  { category: "STUCK", question: "I have rib pain and sigh a lot." },
-  { category: "STUCK", question: "I grind my teeth at night." },
-  { category: "STUCK", question: "I have poor circulation." },
-  { category: "STUCK", question: "I feel stressed out." },
-  {
-    category: "STUCK",
-    question: "I have been diagnosed with endometriosis and/or fibroids.",
-  },
-  {
-    category: "STUCK",
-    question: "My menstrual cycles start then stop then start again.",
-  },
-];
+import { questions } from "../lib/constants";
 
 const categoryColorMap: { [key: string]: string } = {
   HOT: "text-clay-600",
@@ -77,6 +21,7 @@ export default function QuizForm() {
     STUCK: 0,
     HOT: 0,
     COLD: 0,
+    HEALTHY: 0,
   });
   const [showEmailForm, setShowEmailForm] = useState(false);
   const [showResult, setShowResult] = useState(false);
@@ -132,24 +77,24 @@ export default function QuizForm() {
   ) => {
     try {
       const category = getWinningCategory();
-      const segment = getSegment(category);
+      // const segment = getSegment(category);
 
-      const formData = new FormData();
-      formData.append("email", email);
-      formData.append("name", name);
-      formData.append("scores", JSON.stringify(finalScores));
-      formData.append("answers", JSON.stringify(finalAnswers));
-      formData.append("category", category);
-      formData.append("segment_id", segment.id);
+      // const formData = new FormData();
+      // formData.append("email", email);
+      // formData.append("name", name);
+      // formData.append("scores", JSON.stringify(finalScores));
+      // formData.append("answers", JSON.stringify(finalAnswers));
+      // formData.append("category", category);
+      // formData.append("segment_id", segment.id);
 
-      const response = await fetch("/quiz", {
-        method: "POST",
-        body: formData,
-      });
+      // const response = await fetch("/quiz", {
+      //   method: "POST",
+      //   body: formData,
+      // });
 
-      if (!response.ok) {
-        throw new Error("Failed to submit quiz");
-      }
+      // if (!response.ok) {
+      //   throw new Error("Failed to submit quiz");
+      // }
 
       setShowEmailForm(false);
       setShowResult(true);
@@ -160,10 +105,6 @@ export default function QuizForm() {
   };
 
   const getWinningCategory = () => {
-    const allZero = Object.values(scores).every((score) => score === 0);
-    if (allZero) {
-      return "HEALTHY";
-    }
     return Object.entries(scores).reduce((a, b) => (b[1] > a[1] ? b : a))[0];
   };
 
