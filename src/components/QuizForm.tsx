@@ -11,11 +11,21 @@ const categoryColorMap: { [key: string]: string } = {
   HEALTHY: "text-sage-600",
 };
 
+function shuffleArray(array) {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
 export default function QuizForm() {
   const [showWelcome, setShowWelcome] = useState(true);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(undefined);
+  const [shuffledQuestions, setShuffledQuestions] = useState([]);
   const [scores, setScores] = useState({
     DAMP: 0,
     STUCK: 0,
@@ -34,7 +44,7 @@ export default function QuizForm() {
 
   // Update handleAnswer function
   const handleAnswer = (answer) => {
-    const currentQuestion = questions[currentQuestionIndex];
+    const currentQuestion = shuffledQuestions[currentQuestionIndex];
     const newAnswers = {
       ...answers,
       [currentQuestionIndex]: {
@@ -52,7 +62,7 @@ export default function QuizForm() {
     setScores(newScores);
 
     // Mostrar formulario de email solo cuando se completen todas las preguntas
-    if (currentQuestionIndex === questions.length - 1) {
+    if (currentQuestionIndex === shuffledQuestions.length - 1) {
       setShowEmailForm(true);
     } else {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
@@ -110,6 +120,7 @@ export default function QuizForm() {
 
   const startQuiz = () => {
     setShowWelcome(false);
+    setShuffledQuestions(shuffleArray(questions));
     setCurrentQuestionIndex(0);
   };
 
@@ -255,52 +266,53 @@ export default function QuizForm() {
     );
   }
 
-  const currentQuestion = questions[currentQuestionIndex];
-
-  return (
-    <div className="max-w-xs md:max-w-md mx-auto mt-10 p-6 rounded-lg shadow-md shadow-rich_black-100/60">
-      <div className="relative mb-6">
-        {/* ESTO NO ES VISIBLE PARA EL USER */}
-        {/*<div className="absolute -left-96 bg-red-500 rounded-xl p-2">
-          <p>Esto no seria visible para el user</p>
-          <br />
-          <p>Scores: {JSON.stringify(scores)}</p>
-        </div> */}
-        <div className="absolute right-0 font-custom font-bold">
-          {currentQuestionIndex + 1}
+  if (currentQuestionIndex !== undefined) {
+    const currentQuestion = shuffledQuestions[currentQuestionIndex];
+    return (
+      <div className="max-w-xs md:max-w-md mx-auto mt-10 p-6 rounded-lg shadow-md shadow-rich_black-100/60">
+        <div className="relative mb-6">
+          {/* ESTO NO ES VISIBLE PARA EL USER */}
+          {/* <div className="absolute -left-96 bg-red-500 rounded-xl p-2">
+            <p>Esto no seria visible para el user</p>
+            <br />
+            <p>Scores: {JSON.stringify(scores)}</p>
+          </div> */}
+          <div className="absolute right-0 font-custom font-bold">
+            {currentQuestionIndex + 1}
+          </div>
+          <h2 className="text-xl w-11/12 mb-4 min-h-36 text-cloud-100 font-custom font-bold">
+            {currentQuestion.question}
+          </h2>
         </div>
-        <h2 className="text-xl w-11/12 mb-4 min-h-36 text-cloud-100 font-custom font-bold">
-          {currentQuestion.question}
-        </h2>
-      </div>
-      <div className="space-y-4">
-        <button
-          onClick={() => handleAnswer(2)}
-          className="w-full py-2 px-4 rounded bg-clay-600 hover:bg-clay-700 transition-colors duration-300 ease-in-out font-custom font-bold"
-        >
-          Yes
-        </button>
-        <button
-          onClick={() => handleAnswer(0)}
-          className="w-full py-2 px-4 rounded hover:bg-rich_black-100/50 bg-rich_black-100/30 transition-colors duration-300 ease-in-out font-custom font-bold"
-        >
-          No
-        </button>
-        <button
-          onClick={() => handleAnswer(1)}
-          className="w-full py-2 px-4 rounded hover:bg-rich_black-100/50 bg-rich_black-100/30 transition-colors duration-300 ease-in-out font-custom font-bold"
-        >
-          Does not apply
-        </button>
-        {currentQuestionIndex > 0 && (
+        <div className="space-y-4">
           <button
-            onClick={handleBack}
+            onClick={() => handleAnswer(2)}
+            className="w-full py-2 px-4 rounded bg-clay-600 hover:bg-clay-700 transition-colors duration-300 ease-in-out font-custom font-bold"
+          >
+            Yes
+          </button>
+          <button
+            onClick={() => handleAnswer(0)}
             className="w-full py-2 px-4 rounded hover:bg-rich_black-100/50 bg-rich_black-100/30 transition-colors duration-300 ease-in-out font-custom font-bold"
           >
-            Back
+            No
           </button>
-        )}
+          <button
+            onClick={() => handleAnswer(1)}
+            className="w-full py-2 px-4 rounded hover:bg-rich_black-100/50 bg-rich_black-100/30 transition-colors duration-300 ease-in-out font-custom font-bold"
+          >
+            Does not apply
+          </button>
+          {currentQuestionIndex > 0 && (
+            <button
+              onClick={handleBack}
+              className="w-full py-2 px-4 rounded hover:bg-rich_black-100/50 bg-rich_black-100/30 transition-colors duration-300 ease-in-out font-custom font-bold"
+            >
+              Back
+            </button>
+          )}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
