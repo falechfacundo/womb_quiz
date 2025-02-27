@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import QuizForm from "../components/QuizForm";
-import { supabase } from "../lib/supabase";
+import { createClient } from "@supabase/supabase-js";
 
 // Manejar el POST del formulario
 if (Astro.request.method === "POST") {
@@ -20,7 +20,12 @@ if (Astro.request.method === "POST") {
     console.log("category: ", category);
     console.log("segment: ", segment);
 
-    const { data, error } = await supabase.from("quiz_results").insert([
+    const adminSupabase = createClient(
+      import.meta.env.PUBLIC_SUPABASE_URL,
+      import.meta.env.SUPABASE_SERVICE_ROLE_KEY
+    );
+
+    const { data, error } = await adminSupabase.from("quiz_results").insert([
       {
         name,
         email,
