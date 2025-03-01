@@ -6,74 +6,74 @@ import { createClient } from "@supabase/supabase-js";
 // Manejar el POST del formulario
 if (Astro.request.method === "POST") {
   try {
-    // const formData = await Astro.request.formData();
-    // const email = formData.get("email");
-    // const name = formData.get("name");
-    // const scores = JSON.parse(formData.get("scores"));
-    // const answers = JSON.parse(formData.get("answers"));
-    // const category = formData.get("category");
-    // const segment = formData.get("segment_id");
-    // console.log("email: ", email);
-    // console.log("name: ", name);
-    // console.log("scores: ", scores);
-    // console.log("answers: ", answers);
-    // console.log("category: ", category);
-    // console.log("segment: ", segment);
+    const formData = await Astro.request.formData();
+    const email = formData.get("email");
+    const name = formData.get("name");
+    const scores = JSON.parse(formData.get("scores"));
+    const answers = JSON.parse(formData.get("answers"));
+    const category = formData.get("category");
+    const segment = formData.get("segment_id");
+    console.log("email: ", email);
+    console.log("name: ", name);
+    console.log("scores: ", scores);
+    console.log("answers: ", answers);
+    console.log("category: ", category);
+    console.log("segment: ", segment);
 
-    // const adminSupabase = createClient(
-    //   import.meta.env.PUBLIC_SUPABASE_URL,
-    //   import.meta.env.SUPABASE_SERVICE_ROLE_KEY
-    // );
+    const adminSupabase = createClient(
+      import.meta.env.PUBLIC_SUPABASE_URL,
+      import.meta.env.SUPABASE_SERVICE_ROLE_KEY
+    );
 
-    // const { data, error } = await adminSupabase.from("quiz_results").insert([
-    //   {
-    //     name,
-    //     email,
-    //     category,
-    //     scores,
-    //     answers,
-    //   },
-    // ]);
+    const { data, error } = await adminSupabase.from("quiz_results").insert([
+      {
+        name,
+        email,
+        category,
+        scores,
+        answers,
+      },
+    ]);
 
-    // const PUBLIC_FLODESK_API_KEY = import.meta.env.PUBLIC_FLODESK_API_KEY;
-    // const base64Auth = btoa(`${PUBLIC_FLODESK_API_KEY}:`);
-    // console.log("base64Auth: ", base64Auth);
+    const PUBLIC_FLODESK_API_KEY = import.meta.env.PUBLIC_FLODESK_API_KEY;
+    const base64Auth = btoa(`${PUBLIC_FLODESK_API_KEY}:`);
+    console.log("base64Auth: ", base64Auth);
 
-    // const [firstName, ...lastNameParts] = name.split(" ");
-    // const lastName = lastNameParts.join(" ");
-    // console.log("firstName: ", firstName);
-    // console.log("lastName: ", lastName);
+    const [firstName, ...lastNameParts] = name.split(" ");
+    const lastName = lastNameParts.join(" ");
+    console.log("firstName: ", firstName);
+    console.log("lastName: ", lastName);
 
-    // const customFields = {
-    //   quiz_date: new Date().toISOString(),
-    //   total_score: String(Object.values(scores).reduce((a, b) => a + b, 0)),
-    //   hot_score: String(scores.HOT),
-    //   cold_score: String(scores.COLD),
-    //   damp_score: String(scores.DAMP),
-    //   stuck_score: String(scores.STUCK),
-    // };
-    // console.log("customFields: ", customFields);
+    const customFields = {
+      quiz_date: new Date().toISOString(),
+      total_score: String(Object.values(scores).reduce((a, b) => a + b, 0)),
+      hot_score: String(scores.HOT),
+      cold_score: String(scores.COLD),
+      damp_score: String(scores.DAMP),
+      stuck_score: String(scores.STUCK),
+    };
+    console.log("customFields: ", customFields);
 
-    // const flodeskResponse = await fetch(
-    //   "https://api.flodesk.com/v1/subscribers",
-    //   {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       "User-Agent": "Womb Quiz (wombquiz.ireneshancezcelis.com)",
-    //       Authorization: `Basic ${base64Auth}`,
-    //     },
-    //     body: JSON.stringify({
-    //       email,
-    //       first_name: firstName,
-    //       last_name: lastName,
-    //       custom_fields: customFields,
-    //       segment_ids: [segment],
-    //       double_optin: false,
-    //     }),
-    //   }
-    // );
-    // console.log("flodeskResponse: ", flodeskResponse);
+    const flodeskResponse = await fetch(
+      "https://api.flodesk.com/v1/subscribers",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": "Womb Quiz (wombquiz.ireneshancezcelis.com)",
+          Authorization: `Basic ${base64Auth}`,
+        },
+        body: JSON.stringify({
+          email,
+          first_name: firstName,
+          last_name: lastName,
+          custom_fields: customFields,
+          segment_ids: [segment],
+          double_optin: false,
+        }),
+      }
+    );
+    console.log("flodeskResponse: ", flodeskResponse);
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,
