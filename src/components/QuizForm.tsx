@@ -254,7 +254,10 @@ export default function QuizForm() {
               Get your Womb Mini Masterclass & Self Care Practices for your womb
             </p>
             <a
-              href={`/${category.toLowerCase()}_freebie.pdf`}
+              href={`/Irene Sanchez-Celis - Free ${
+                category.charAt(0).toUpperCase() +
+                category.slice(1).toLowerCase()
+              } Womb.pdf`}
               className="inline-block bg-clay-600 px-4 py-2 rounded hover:bg-power-500 transition-colors duration-300 ease-out"
               download
             >
