@@ -47,6 +47,7 @@ export default function Analytics({
 
       const { results: newResults, pagination: newPagination } =
         await response.json();
+
       setResults(newResults);
       setPagination(newPagination);
     } catch (error) {
@@ -90,12 +91,17 @@ export default function Analytics({
         {/* Stats Cards */}
         {results && (
           <>
-            <StatCard
-              title="Total"
-              value={totalResponses}
-              className="bg-power-800 mb-6 bg-rich_black-100/40"
-            />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              <StatCard
+                title="Total"
+                value={totalResponses}
+                className="bg-power-800 bg-rich_black-100/40"
+              />
+              <StatCard
+                title="Healthy Wombs"
+                value={categoryCounts["HEALTHY"] || 0}
+                className="bg-sage-600/70"
+              />
               <StatCard
                 title="HOT Wombs"
                 value={categoryCounts["HOT"] || 0}
@@ -275,6 +281,7 @@ function CategoryChart({ data }) {
     { name: "COLD", value: data["COLD"] || 0 },
     { name: "DAMP", value: data["DAMP"] || 0 },
     { name: "STUCK", value: data["STUCK"] || 0 },
+    { name: "HEALTHY", value: data["HEALTHY"] || 0 },
   ];
 
   return (

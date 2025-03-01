@@ -3,26 +3,27 @@ import Layout from "../layouts/Layout.astro";
 import AnalyticsComponent from "../components/Analytics";
 import { supabase } from "../lib/supabase";
 
-// Obtener parámetros de paginación
 const page = Number(Astro.url.searchParams.get("page")) || 1;
 const per_page = 10;
 const from = (page - 1) * per_page;
 const to = from + per_page - 1;
 
-// Manejar peticiones desde el cliente
 if (Astro.request.method === "POST") {
   try {
-    // Obtener total de registros
+    console.log("Peticion: ");
+
     const { count } = await supabase
       .from("quiz_results")
       .select("*", { count: "exact", head: true });
 
-    // Obtener datos paginados
     const { data: results, error } = await supabase
       .from("quiz_results")
       .select("*")
       .order("created_at", { ascending: false })
       .range(from, to);
+    console.log("results: ", results);
+    console.log("count: ", count);
+    console.log("error: ", error);
 
     if (error) throw error;
 
@@ -103,6 +104,9 @@ const { data: initialResults, count } = await supabase
   .select("*", { count: "exact" })
   .order("created_at", { ascending: false })
   .range(from, to);
+
+console.log("allResults: ", allResults);
+console.log("initialResults: ", initialResults);
 
 const initialPagination = {
   total: count,
