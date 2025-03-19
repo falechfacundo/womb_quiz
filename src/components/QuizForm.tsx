@@ -261,7 +261,7 @@ export default function QuizForm() {
               {category} Womb
             </h1>
             <p className="mb-4 font-custom">
-              Get your Womb Mini Masterclass & Self Care Practices for your womb
+              Get your Womb Mini Masterclass & Self Care Practices.
             </p>
 
             <button
