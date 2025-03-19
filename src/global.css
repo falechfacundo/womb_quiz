@@ -4,10 +4,10 @@
 
 @font-face {
   font-family: "FiguraSans";
-  src: url("/public/fonts/FiguraSans_Medium.ttf");
+  src: url("/fonts/FiguraSans_Medium.ttf");
 }
 
 @font-face {
   font-family: "HVFlorentino";
-  src: url("/public/fonts/HV_Florentino_Regular.ttf");
+  src: url("/fonts/HV_Florentino_Regular.ttf");
 }

@@ -177,16 +177,16 @@ export default function QuizForm() {
             />
           </div>
           <div className="md:w-1/2 space-y-12">
-            <h1 className="text-4xl text-golden-600 font-custom font-bold">
+            <h1 className="text-4xl text-golden-600 font-HVFlorentino font-bold">
               UNLOCK the SECRETS of your WOMB
             </h1>
-            <p className="text-xl font-custom font-bold">
+            <p className="text-xl font-FiguraSans">
               Take the holistic quiz & discover your unique womb type to receive
               bespoke self care practices.
             </p>
             <button
               onClick={startQuiz}
-              className="w-full bg-clay-600 py-3 px-6 rounded-lg text-lg hover:bg-clay-700 transition-colors duration-300 font-custom font-bold"
+              className="w-full bg-clay-600 py-3 px-6 rounded-lg text-lg hover:bg-clay-700 transition-colors duration-300 font-FiguraSans font-bold"
             >
               Start Quiz
             </button>
@@ -203,7 +203,7 @@ export default function QuizForm() {
         className="w-full md:max-w-md mx-auto mt-10 p-6 bg-power-700 rounded-lg shadow-none md:shadow-md shadow-rich_black-100/60"
       >
         <div className="mb-6">
-          <label htmlFor="name" className="block mb-2 font-custom">
+          <label htmlFor="name" className="block mb-2 font-FiguraSans">
             Enter your name
           </label>
           <input
@@ -216,7 +216,7 @@ export default function QuizForm() {
           />
         </div>
         <div className="mb-10">
-          <label htmlFor="email" className="block mb-2 font-custom">
+          <label htmlFor="email" className="block mb-2 font-FiguraSans">
             Enter your email to see the result
           </label>
           <input
@@ -230,7 +230,7 @@ export default function QuizForm() {
         </div>
         <button
           type="submit"
-          className="w-full bg-clay-600 py-2 px-4 rounded hover:bg-clay-700 transition-colors duration-300 ease-out font-custom font-bold"
+          className="w-full bg-clay-600 py-2 px-4 rounded hover:bg-clay-700 transition-colors duration-300 ease-out font-FiguraSans font-bold"
         >
           Submit
         </button>
@@ -252,15 +252,15 @@ export default function QuizForm() {
             />
           </div>
           <div className="md:w-1/2 space-y-4">
-            <h2 className="text-2xl mb-1 font-custom">
+            <h2 className="text-2xl mb-1 font-HVFlorentino">
               Sister, your womb wisdom is calling!
             </h2>
             <h1
-              className={`text-xl mb-6 font-custom font-bold ${categoryColorClass}`}
+              className={`text-xl mb-6 font-HVFlorentino font-bold ${categoryColorClass}`}
             >
               {category} Womb
             </h1>
-            <p className="mb-4 font-custom">
+            <p className="mb-4 font-FiguraSans">
               Here is your personalized result-along with a loving gift to
               support your journey. Download your Holistic Womb Healing Mini
               Freebie PDF below
@@ -327,7 +327,7 @@ export default function QuizForm() {
 
                 downloadFile();
               }}
-              className="inline-block bg-clay-600 px-4 py-2 rounded hover:bg-power-500 transition-colors duration-300 ease-out"
+              className="inline-block bg-clay-600 px-4 py-2 rounded hover:bg-power-500 transition-colors duration-300 ease-out font-FiguraSans font-bold"
             >
               Download
             </button>
