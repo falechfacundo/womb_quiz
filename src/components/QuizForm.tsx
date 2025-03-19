@@ -253,7 +253,7 @@ export default function QuizForm() {
           </div>
           <div className="md:w-1/2 space-y-4">
             <h2 className="text-2xl mb-1 font-custom">
-              Sister, here is your result!
+              Sister, your womb wisdom is calling!
             </h2>
             <h1
               className={`text-xl mb-6 font-custom font-bold ${categoryColorClass}`}
@@ -261,7 +261,9 @@ export default function QuizForm() {
               {category} Womb
             </h1>
             <p className="mb-4 font-custom">
-              Get your Womb Mini Masterclass & Self Care Practices.
+              Here is your personalized result-along with a loving gift to
+              support your journey. Download your Holistic Womb Healing Mini
+              Freebie PDF below
             </p>
 
             <button
