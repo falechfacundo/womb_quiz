@@ -57,7 +57,12 @@ export default function QuizForm() {
 
     const newScores = { ...scores };
     if (answer === 2) {
-      newScores[currentQuestion.category] += 2;
+      // Si la categoría es HEALTHY, suma solo 1 punto, de lo contrario suma 2
+      if (currentQuestion.category === "HEALTHY") {
+        newScores[currentQuestion.category] += 1;
+      } else {
+        newScores[currentQuestion.category] += 2;
+      }
     }
     setScores(newScores);
 
@@ -142,7 +147,12 @@ export default function QuizForm() {
 
       if (prevAnswer.answer == 2) {
         const newScores = { ...scores };
-        newScores[prevAnswer.category] -= 2;
+        // Si la categoría es HEALTHY, resta solo 1 punto, de lo contrario resta 2
+        if (prevAnswer.category === "HEALTHY") {
+          newScores[prevAnswer.category] -= 1;
+        } else {
+          newScores[prevAnswer.category] -= 2;
+        }
         setScores(newScores);
       }
 
@@ -253,16 +263,89 @@ export default function QuizForm() {
             <p className="mb-4 font-custom">
               Get your Womb Mini Masterclass & Self Care Practices for your womb
             </p>
-            <a
-              href={`/Irene Sanchez-Celis - Free ${
-                category.charAt(0).toUpperCase() +
-                category.slice(1).toLowerCase()
-              } Womb.pdf`}
+
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+
+                // URL del PDF
+                const pdfUrl = `https://yckfhwjhmfpmgprnjsib.supabase.co/storage/v1/object/public/freebie//Irene%20Sanchez-Celis%20-%20Free%20${
+                  category.charAt(0).toUpperCase() +
+                  category.slice(1).toLowerCase()
+                }%20Womb.pdf`;
+
+                // Función para descargar
+                const downloadFile = async () => {
+                  try {
+                    // Mostrar estado de descarga
+                    const button = e.currentTarget;
+                    const originalText = button.innerText;
+                    button.innerText = "Downloading...";
+                    button.disabled = true;
+
+                    // Descargar el archivo
+                    const response = await fetch(pdfUrl);
+
+                    // Verificar si la descarga fue exitosa
+                    if (!response.ok) throw new Error("Download failed");
+
+                    // Convertir a blob
+                    const blob = await response.blob();
+
+                    // Crear URL de objeto
+                    const url = window.URL.createObjectURL(blob);
+
+                    // Crear enlace invisible
+                    const a = document.createElement("a");
+                    a.style.display = "none";
+                    a.href = url;
+                    a.download = `Irene Sanchez-Celis - Free ${
+                      category.charAt(0).toUpperCase() +
+                      category.slice(1).toLowerCase()
+                    } Womb.pdf`;
+
+                    // Añadir al DOM, descargar y limpiar
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+
+                    // Restaurar estado del botón
+                    button.innerText = originalText;
+                    button.disabled = false;
+                  } catch (error) {
+                    console.error("Error downloading file:", error);
+                    alert(
+                      "There was an error downloading your file. Please try again."
+                    );
+                    e.currentTarget.innerText = "Download";
+                    e.currentTarget.disabled = false;
+                  }
+                };
+
+                downloadFile();
+              }}
               className="inline-block bg-clay-600 px-4 py-2 rounded hover:bg-power-500 transition-colors duration-300 ease-out"
-              download
             >
               Download
-            </a>
+            </button>
+            {/* Los comentarios originales mantenidos aquí:
+              // href={`/Irene Sanchez-Celis - Free ${
+              //   category.charAt(0).toUpperCase() +
+              //   category.slice(1).toLowerCase()
+              // } Womb.pdf`}
+
+              // URL completa:
+              // https://yckfhwjhmfpmgprnjsib.supabase.co/storage/v1/object/public/freebie//Irene%20Sanchez-Celis%20-%20Free%20${
+              //   category.charAt(0).toUpperCase() +
+              //   category.slice(1).toLowerCase()
+              // }%20Womb.pdf
+              // https://yckfhwjhmfpmgprnjsib.supabase.co/storage/v1/object/public/freebie//Irene%20Sanchez-Celis%20-%20Free%20Cold%20Womb.pdf
+              // https://yckfhwjhmfpmgprnjsib.supabase.co/storage/v1/object/public/freebie//Irene%20Sanchez-Celis%20-%20Free%20Damp%20Womb.pdf
+              // https://yckfhwjhmfpmgprnjsib.supabase.co/storage/v1/object/public/freebie//Irene%20Sanchez-Celis%20-%20Free%20Healthy%20Womb.pdf
+              // https://yckfhwjhmfpmgprnjsib.supabase.co/storage/v1/object/public/freebie//Irene%20Sanchez-Celis%20-%20Free%20Hot%20Womb.pdf
+              // https://yckfhwjhmfpmgprnjsib.supabase.co/storage/v1/object/public/freebie//Irene%20Sanchez-Celis%20-%20Free%20Stuck%20Womb.pdf
+              */}
           </div>
         </div>
       </div>
@@ -275,11 +358,11 @@ export default function QuizForm() {
       <div className="max-w-xs md:max-w-md mx-auto mt-10 p-6 rounded-lg shadow-md shadow-rich_black-100/60">
         <div className="relative mb-6">
           {/* ESTO NO ES VISIBLE PARA EL USER */}
-          {/* <div className="absolute -left-96 bg-red-500 rounded-xl p-2">
+          <div className="absolute -left-96 bg-red-500 rounded-xl p-2">
             <p>Esto no seria visible para el user</p>
             <br />
             <p>Scores: {JSON.stringify(scores)}</p>
-          </div> */}
+          </div>
           <div className="absolute right-0 font-custom font-bold">
             {currentQuestionIndex + 1}
           </div>
@@ -301,7 +384,7 @@ export default function QuizForm() {
             No
           </button>
           <button
-            onClick={() => handleAnswer(1)}
+            onClick={() => handleAnswer(0)}
             className="w-full py-2 px-4 rounded hover:bg-rich_black-100/50 bg-rich_black-100/30 transition-colors duration-300 ease-in-out font-custom font-bold"
           >
             Does not apply
