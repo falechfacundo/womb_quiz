@@ -206,7 +206,7 @@ export default function Analytics({
             </div>
             {/* Detailed Responses for selected profile */}
             {selectedProfile && (
-              <div className="bg-rich_black-100/10 rounded-lg p-6 shadow-lg">
+              <div className="bg-rich_black-100/10 rounded-lg p-6 shadow-lg mb-10">
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="text-2xl font-HVFlorentino text-golden-600">
                     Detailed Responses for {selectedProfile.name} (
