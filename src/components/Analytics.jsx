@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   BarChart,
   Bar,
@@ -22,6 +22,7 @@ export default function Analytics({
   const [pagination, setPagination] = useState(initialPagination);
   const [loading, setLoading] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null); // Add state for selected category
   const totalResponses = allResults ? allResults.length : 0;
   const categoryCounts = allResults
     ? allResults.reduce((acc, result) => {
@@ -30,11 +31,15 @@ export default function Analytics({
       }, {})
     : {};
 
-  // Calcular estadísticas basadas en result.category
-  // const categoryCounts = results.reduce((acc, result) => {
-  //   acc[result.category] = (acc[result.category] || 0) + 1;
-  //   return acc;
-  // }, {});
+  // Handle category selection
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(selectedCategory === category ? null : category);
+  };
+
+  // Filter results based on selected category
+  const filteredResults = selectedCategory
+    ? allResults.filter((result) => result.category === selectedCategory)
+    : [];
 
   async function fetchResults(page = 1) {
     try {
@@ -96,31 +101,45 @@ export default function Analytics({
                 title="Total"
                 value={totalResponses}
                 className="bg-power-800 bg-rich_black-100/40"
+                onClick={() => setSelectedCategory(null)}
+                isSelected={
+                  selectedCategory === null && filteredResults.length === 0
+                }
               />
               <StatCard
                 title="Healthy Wombs"
                 value={categoryCounts["HEALTHY"] || 0}
                 className="bg-sage-600/70"
+                onClick={() => handleCategoryClick("HEALTHY")}
+                isSelected={selectedCategory === "HEALTHY"}
               />
               <StatCard
                 title="HOT Wombs"
                 value={categoryCounts["HOT"] || 0}
                 className="bg-clay-600"
+                onClick={() => handleCategoryClick("HOT")}
+                isSelected={selectedCategory === "HOT"}
               />
               <StatCard
                 title="DAMP Wombs"
                 value={categoryCounts["DAMP"] || 0}
                 className="bg-blush-700/90"
+                onClick={() => handleCategoryClick("DAMP")}
+                isSelected={selectedCategory === "DAMP"}
               />
               <StatCard
                 title="STUCK Wombs"
                 value={categoryCounts["STUCK"] || 0}
                 className="bg-blush-900/60"
+                onClick={() => handleCategoryClick("STUCK")}
+                isSelected={selectedCategory === "STUCK"}
               />
               <StatCard
                 title="COLD Wombs"
                 value={categoryCounts["COLD"] || 0}
                 className="bg-sky-800/60"
+                onClick={() => handleCategoryClick("COLD")}
+                isSelected={selectedCategory === "COLD"}
               />
             </div>
             {/* Category Distribution & Timeline Charts */}
@@ -253,6 +272,67 @@ export default function Analytics({
                 </div>
               </div>
             )}
+            {/* Filtered Results by Category */}
+            {selectedCategory && filteredResults.length > 0 && (
+              <div className="bg-rich_black-100/10 rounded-lg p-6 shadow-lg mb-8">
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-2xl font-HVFlorentino text-golden-600">
+                    Results for {selectedCategory} Womb (
+                    {filteredResults.length})
+                  </h2>
+                  <button
+                    className="bg-rich_black-100/30 px-4 py-2 rounded hover:bg-rich_black-100/50 transition-colors duration-300 ease-in-out"
+                    onClick={() => setSelectedCategory(null)}
+                  >
+                    Clear Filter
+                  </button>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-power-700">
+                        <th className="py-2 px-4 text-left text-golden-500">
+                          Date
+                        </th>
+                        <th className="py-2 px-4 text-left text-golden-500">
+                          Name
+                        </th>
+                        <th className="py-2 px-4 text-left text-golden-500">
+                          Email
+                        </th>
+                        <th className="py-2 px-4 text-left text-golden-500">
+                          Score
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredResults.map((result, index) => (
+                        <tr
+                          key={index}
+                          className="border-b border-power-700 hover:bg-power-700/50 cursor-pointer"
+                          onClick={() => setSelectedProfile(result)}
+                        >
+                          <td className="py-2 px-4 text-cloud-100">
+                            {result.created_at
+                              ? result.created_at.substring(0, 10)
+                              : "N/A"}
+                          </td>
+                          <td className="py-2 px-4 text-cloud-100">
+                            {result.name}
+                          </td>
+                          <td className="py-2 px-4 text-cloud-100">
+                            {result.email}
+                          </td>
+                          <td className="py-2 px-4 text-cloud-100">
+                            {result.scores[result.category]}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
           </>
         )}
       </div>
@@ -261,10 +341,13 @@ export default function Analytics({
 }
 
 // Stats Card Component
-function StatCard({ title, value, className = "" }) {
+function StatCard({ title, value, className = "", onClick, isSelected }) {
   return (
     <div
-      className={`rounded-lg p-6 shadow-lg ${className} max-w-sm md:max-w-4xl`}
+      className={`rounded-lg p-6 shadow-lg ${className} max-w-sm md:max-w-4xl cursor-pointer transition-all duration-300 ease-in-out ${
+        isSelected ? "ring-2 ring-golden-500 transform scale-105" : ""
+      }`}
+      onClick={onClick}
     >
       <h3 className="text-golden-500 text-lg font-HVFlorentino mb-2">
         {title}
